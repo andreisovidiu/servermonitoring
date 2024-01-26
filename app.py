@@ -78,6 +78,8 @@ disk_message = 'DISK usage alert, check the server'
 # Initial time 
 start_time = time.time()
 
+number = os.getenv('MY_NUMBER')
+
 # While condition
 while True:
 
@@ -98,7 +100,7 @@ while True:
     # CPU message
     if cpu_percentage > 80 and elapsed_time > time_passed: 
             message = client.messages.create(
-                to="+393208877214",
+                to=number,
                 from_="+12015033897",
                 body="ALERT CPU USAGE!")
             
@@ -109,7 +111,7 @@ while True:
     # Memory message
     if memory_percentage > 80 and elapsed_time > time_passed:
         message = client.messages.create(
-            to="+393208877214",
+            to=number,
             from_="+12015033897",
             body="ALERT MEMORY USAGE!")
         
@@ -120,7 +122,7 @@ while True:
     # Disk message
     if disk_space_percentage > 80 and elapsed_time > time_passed:
         message = client.messages.create(
-            to="+393208877214",
+            to=number,
             from_="+12015033897",
             body="ALERT DISK USAGE!")
         
