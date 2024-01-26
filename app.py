@@ -78,6 +78,9 @@ disk_message = 'DISK usage alert, check the server'
 # Initial time 
 start_time = time.time()
 
+number = os.getenv('MY_NUMBER')
+twilio_number = os.getenv('TWILIO_NUMBER')
+
 # While condition
 while True:
 
@@ -98,8 +101,8 @@ while True:
     # CPU message
     if cpu_percentage > 1 and elapsed_time > time_passed: 
             message = client.messages.create(
-                to= "+393208877214",
-                from_="+12015033897",
+                to= number,
+                from_=twilio_number,
                 body="ALERT CPU USAGE!")
             
             # TG bot message method
@@ -109,8 +112,8 @@ while True:
     # Memory message
     if memory_percentage > 80 and elapsed_time > time_passed:
         message = client.messages.create(
-            to= "+393208877214",
-            from_="+12015033897",
+            to= number,
+            from_=twilio_number,
             body="ALERT MEMORY USAGE!")
         
         # TG bot message method
@@ -120,8 +123,8 @@ while True:
     # Disk message
     if disk_space_percentage > 80 and elapsed_time > time_passed:
         message = client.messages.create(
-            to= "+393208877214",
-            from_="+12015033897",
+            to= number,
+            from_=twilio_number,
             body="ALERT DISK USAGE!")
         
         # TG bot message method
