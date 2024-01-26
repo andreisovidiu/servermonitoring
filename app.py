@@ -52,8 +52,8 @@ def print_system_info():
 load_dotenv()
 
 # Your Account SID and Auth Token from console.twilio.com
-account_sid = os.getenv('ACCOUNT_SID')
-auth_token  = os.getenv('AUTH_TOKEN')
+account_sid = "AC049114352f0f2da329089f2db4864d30"
+auth_token  = "620f3d9c4f6f93458947defe187dac16"
 client = Client(account_sid, auth_token)
 
 # Telegram 
@@ -78,8 +78,6 @@ disk_message = 'DISK usage alert, check the server'
 # Initial time 
 start_time = time.time()
 
-number = os.getenv('MY_NUMBER')
-
 # While condition
 while True:
 
@@ -98,9 +96,9 @@ while True:
 
     # List of INDIPENDENT conditions
     # CPU message
-    if cpu_percentage > 80 and elapsed_time > time_passed: 
+    if cpu_percentage > 1 and elapsed_time > time_passed: 
             message = client.messages.create(
-                to=number,
+                to= "+393208877214",
                 from_="+12015033897",
                 body="ALERT CPU USAGE!")
             
@@ -111,7 +109,7 @@ while True:
     # Memory message
     if memory_percentage > 80 and elapsed_time > time_passed:
         message = client.messages.create(
-            to=number,
+            to= "+393208877214",
             from_="+12015033897",
             body="ALERT MEMORY USAGE!")
         
@@ -122,7 +120,7 @@ while True:
     # Disk message
     if disk_space_percentage > 80 and elapsed_time > time_passed:
         message = client.messages.create(
-            to=number,
+            to= "+393208877214",
             from_="+12015033897",
             body="ALERT DISK USAGE!")
         
