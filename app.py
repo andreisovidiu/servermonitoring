@@ -52,9 +52,9 @@ def print_system_info():
 load_dotenv()
 
 # Your Account SID and Auth Token from console.twilio.com
-account_sid = "AC049114352f0f2da329089f2db4864d30"
-auth_token  = "620f3d9c4f6f93458947defe187dac16"
-client = Client(account_sid, auth_token)
+account_sid = os.environ['ACCOUNT_SID']
+auth_token = os.getenv('AUTH_TOKEN')
+client = Client(account_sid, auth_token)    
 
 # Telegram 
 bot = telebot.TeleBot(os.getenv('API_TOKEN'))
