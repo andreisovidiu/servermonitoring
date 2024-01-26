@@ -86,6 +86,7 @@ while True:
     certain % for a certain amount of time 
     then send an alert message and repeat
     every minute/s 
+    
     """
     
     elapsed_time = time.time() - start_time
@@ -131,6 +132,7 @@ while True:
     Errors are managed by the Twilio module,
     check documentation or support for details
     https://www.twilio.com/docs/errors/21608
+    
     """
         
     time.sleep(time_passed) 
