@@ -26,7 +26,6 @@ used_disk_space = disk_usage.used
 free_disk_space = disk_usage.free
 disk_space_percentage = disk_usage.percent
 
-
 # Print values function
 def print_system_info():
 
