@@ -101,7 +101,7 @@ while True:
     # CPU message
     if cpu_percentage > 80 and elapsed_time > time_passed: 
             message = client.messages.create(
-                to= number1,
+                to= number1 and number2,
                 from_=twilio_number,
                 body="ALERT CPU USAGE!")
             
@@ -112,7 +112,7 @@ while True:
     # Memory message
     if memory_percentage > 1 and elapsed_time > time_passed:
         message = client.messages.create(
-            to= number1, # and number2,
+            to= number1 and number2,
             from_=twilio_number,
             body="ALERT MEMORY USAGE!")
         
@@ -123,7 +123,7 @@ while True:
     # Disk message
     if disk_space_percentage > 80 and elapsed_time > time_passed:
         message = client.messages.create(
-            to= number1,
+            to= number1 and number2,
             from_=twilio_number,
             body="ALERT DISK USAGE!")
         
