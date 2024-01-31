@@ -77,10 +77,11 @@ disk_message = 'DISK usage alert, check the server'
 # Initial time 
 start_time = time.time()
 
-number = os.getenv('MY_NUMBER')
+number1 = os.getenv('MY_NUMBER')
+number2 = os.getenv('NUMBER2')
 twilio_number = os.getenv('TWILIO_NUMBER')
 
-# While condition
+# While condition MAIN()?
 while True:
 
     """ 
@@ -98,9 +99,9 @@ while True:
 
     # List of INDIPENDENT conditions
     # CPU message
-    if cpu_percentage > 1 and elapsed_time > time_passed: 
+    if cpu_percentage > 80 and elapsed_time > time_passed: 
             message = client.messages.create(
-                to= number,
+                to= number1,
                 from_=twilio_number,
                 body="ALERT CPU USAGE!")
             
@@ -109,9 +110,9 @@ while True:
             print_system_info()
 
     # Memory message
-    if memory_percentage > 80 and elapsed_time > time_passed:
+    if memory_percentage > 1 and elapsed_time > time_passed:
         message = client.messages.create(
-            to= number,
+            to= number1, # and number2,
             from_=twilio_number,
             body="ALERT MEMORY USAGE!")
         
@@ -122,7 +123,7 @@ while True:
     # Disk message
     if disk_space_percentage > 80 and elapsed_time > time_passed:
         message = client.messages.create(
-            to= number,
+            to= number1,
             from_=twilio_number,
             body="ALERT DISK USAGE!")
         
@@ -138,3 +139,5 @@ while True:
     """
         
     time.sleep(time_passed) 
+
+# Implement main()
