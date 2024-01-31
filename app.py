@@ -81,63 +81,64 @@ number1 = os.getenv('MY_NUMBER')
 number2 = os.getenv('NUMBER2')
 twilio_number = os.getenv('TWILIO_NUMBER')
 
-# While condition MAIN()?
-while True:
+def main():
+    while True:
 
-    """ 
-    If values are higher than a
-    certain % for a certain amount of time 
-    then send an alert message and repeat
-    every minute/s 
-    
-    """
-    
-    elapsed_time = time.time() - start_time
+        """ 
+        If values are higher than a
+        certain % for a certain amount of time 
+        then send an alert message and repeat
+        every minute/s 
+        
+        """
+        
+        elapsed_time = time.time() - start_time
 
-    # Constant var
-    time_passed = 5 # Value in seconds
+        # Constant var
+        time_passed = 5 # Value in seconds
 
-    # List of INDIPENDENT conditions
-    # CPU message
-    if cpu_percentage > 80 and elapsed_time > time_passed: 
+        # List of INDIPENDENT conditions
+        # CPU message
+        if cpu_percentage > 80 and elapsed_time > time_passed: 
+                message = client.messages.create(
+                    to= number1,
+                    from_=twilio_number,
+                    body="ALERT CPU USAGE!")
+                
+                # TG bot message method
+                bot.send_message(chat_id=target_chat_id, text=cpu_message)
+                print_system_info()
+
+        # Memory message
+        if memory_percentage > 1 and elapsed_time > time_passed:
             message = client.messages.create(
-                to= number1 and number2, # Modified
+                to= number1,
                 from_=twilio_number,
-                body="ALERT CPU USAGE!")
+                body="ALERT MEMORY USAGE!")
             
             # TG bot message method
-            bot.send_message(chat_id=target_chat_id, text=cpu_message)
+            bot.send_message(chat_id=target_chat_id, text=ram_message)
             print_system_info()
+            
+        # Disk message
+        if disk_space_percentage > 80 and elapsed_time > time_passed:
+            message = client.messages.create(
+                to= number1,
+                from_=twilio_number,
+                body="ALERT DISK USAGE!")
+            
+            # TG bot message method
+            bot.send_message(chat_id=target_chat_id, text=disk_message)
+            print_system_info()
+            
+        """
+        Errors are managed by the Twilio module,
+        check documentation or support for details
+        https://www.twilio.com/docs/errors/21608
+        
+        """
+            
+        time.sleep(time_passed) 
 
-    # Memory message
-    if memory_percentage > 1 and elapsed_time > time_passed:
-        message = client.messages.create(
-            to= number1 and number2, # Modified
-            from_=twilio_number,
-            body="ALERT MEMORY USAGE!")
-        
-        # TG bot message method
-        bot.send_message(chat_id=target_chat_id, text=ram_message)
-        print_system_info()
-        
-    # Disk message
-    if disk_space_percentage > 80 and elapsed_time > time_passed:
-        message = client.messages.create(
-            to= number1 and number2, # Modified
-            from_=twilio_number,
-            body="ALERT DISK USAGE!")
-        
-        # TG bot message method
-        bot.send_message(chat_id=target_chat_id, text=disk_message)
-        print_system_info()
-        
-    """
-    Errors are managed by the Twilio module,
-    check documentation or support for details
-    https://www.twilio.com/docs/errors/21608
-    
-    """
-        
-    time.sleep(time_passed) 
-
-# Implement main()
+if __name__ == "__main__":
+    main()
