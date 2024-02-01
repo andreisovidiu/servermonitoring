@@ -95,15 +95,15 @@ def main():
         elapsed_time = time.time() - start_time
 
         # Constant var
-        time_passed = 5 # Value in seconds
+        time_passed = 20 # Value in seconds
 
         # List of INDIPENDENT conditions
         # CPU message
         if cpu_percentage > 80 and elapsed_time > time_passed: 
-                message = client.messages.create(
-                    to= number1,
-                    from_=twilio_number,
-                    body="ALERT CPU USAGE!")
+                # message = client.messages.create(
+                #     to= number1,
+                #     from_=twilio_number,
+                #     body="ALERT CPU USAGE!")
                 
                 # TG bot message method
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
@@ -122,10 +122,10 @@ def main():
             
         # Disk message
         if disk_space_percentage > 80 and elapsed_time > time_passed:
-            message = client.messages.create(
-                to= number1,
-                from_=twilio_number,
-                body="ALERT DISK USAGE!")
+            # message = client.messages.create(
+            #     to= number1,
+            #     from_=twilio_number,
+            #     body="ALERT DISK USAGE!")
             
             # TG bot message method
             bot.send_message(chat_id=target_chat_id, text=disk_message)

@@ -1,1 +1,13 @@
-
+nohup: ignoring input
+Traceback (most recent call last):
+  File "/mnt/d/onedrive/desktop/devtools/vscprojects/linuxmonitortgbot/app.py", line 144, in <module>
+    main()
+  File "/mnt/d/onedrive/desktop/devtools/vscprojects/linuxmonitortgbot/app.py", line 114, in main
+    message = client.messages.create(
+  File "/home/andreiovidiu/.local/share/virtualenvs/linuxmonitortgbot-qgRJ7mMm/lib/python3.10/site-packages/twilio/rest/api/v2010/account/message/__init__.py", line 560, in create
+    payload = self._version.create(
+  File "/home/andreiovidiu/.local/share/virtualenvs/linuxmonitortgbot-qgRJ7mMm/lib/python3.10/site-packages/twilio/base/version.py", line 465, in create
+    return self._parse_create(method, uri, response)
+  File "/home/andreiovidiu/.local/share/virtualenvs/linuxmonitortgbot-qgRJ7mMm/lib/python3.10/site-packages/twilio/base/version.py", line 436, in _parse_create
+    raise self.exception(method, uri, response, "Unable to create record")
+twilio.base.exceptions.TwilioRestException: HTTP 400 error: Unable to create record: 'To' number: +3932088772XXXX, is not a valid mobile number
