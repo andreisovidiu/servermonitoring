@@ -5,9 +5,12 @@ import time
 from twilio.rest import Client
 from dotenv import load_dotenv
 
-############################################################################################
 
-"""Psutil package implementation to get system information"""
+"""
+
+Psutil package implementation to get system information
+
+"""
 
 # Get CPU usage
 cpu_percentage = psutil.cpu_percent(interval=1)  # Interval is in seconds
@@ -43,9 +46,13 @@ def print_system_info():
     print(f"Free Disk Space: {free_disk_space / (1024 ** 3):.2f} GB")
     print(f"Disk Space Usage: {disk_space_percentage}%")
 
-############################################################################################
+"""
 
-"""Twilio + Telegram bot code implementation"""
+
+Twilio and Telegram code implementation
+
+
+"""
 
 # load hidden .env variables
 load_dotenv()
@@ -97,13 +104,23 @@ def main():
         # Constant var
         time_passed = 20 # Value in seconds
 
-        # List of INDIPENDENT conditions
+        """
+        List of three INDIPENDENT conditions:
+        CPU
+        MEMORY
+        DISK
+        
+        """
+
         # CPU message
-        if cpu_percentage > 80 and elapsed_time > time_passed: 
-                # message = client.messages.create(
-                #     to= number1,
-                #     from_=twilio_number,
-                #     body="ALERT CPU USAGE!")
+        if cpu_percentage > 80 and elapsed_time > time_passed:
+            try:
+                message = client.messages.create(
+                    to= number1,
+                    from_=twilio_number,
+                    body="ALERT CPU USAGE, check the server.")
+            except:
+                bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
                 
                 # TG bot message method
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
@@ -115,10 +132,9 @@ def main():
                 message = client.messages.create(
                     to= number1,
                     from_=twilio_number,
-                    body="ALERT MEMORY USAGE!")
+                    body="ALERT MEMORY USAGE, check the server.")
             except:
-                 bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent')
-                 
+                 bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
             
             # TG bot message method
             bot.send_message(chat_id=target_chat_id, text=ram_message)
@@ -126,17 +142,21 @@ def main():
             
         # Disk message
         if disk_space_percentage > 80 and elapsed_time > time_passed:
-            # message = client.messages.create(
-            #     to= number1,
-            #     from_=twilio_number,
-            #     body="ALERT DISK USAGE!")
-            
+            try:
+                message = client.messages.create(
+                    to= number1,
+                    from_=twilio_number,
+                    body="ALERT DISK USAGE, check the server.")
+            except:
+                bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+
             # TG bot message method
             bot.send_message(chat_id=target_chat_id, text=disk_message)
             print_system_info()
             
         """
-        Errors are managed by the Twilio module,
+        Errors are managed by the Twilio module 
+        and by the try/except condition,
         check documentation or support for details
         https://www.twilio.com/docs/errors/21608
         
