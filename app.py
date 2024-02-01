@@ -111,10 +111,14 @@ def main():
 
         # Memory message
         if memory_percentage > 1 and elapsed_time > time_passed:
-            message = client.messages.create(
-                to= number1,
-                from_=twilio_number,
-                body="ALERT MEMORY USAGE!")
+            try:
+                message = client.messages.create(
+                    to= number1,
+                    from_=twilio_number,
+                    body="ALERT MEMORY USAGE!")
+            except:
+                 bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent')
+                 
             
             # TG bot message method
             bot.send_message(chat_id=target_chat_id, text=ram_message)
