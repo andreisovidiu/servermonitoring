@@ -4,6 +4,7 @@ import psutil
 import time
 from twilio.rest import Client
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 
 """
 
@@ -86,23 +87,35 @@ Main
 
 def main():
 
-    info_printer = SystemInfoPrinter() # Object
-    start_time = time.time()
+    info_printer = SystemInfoPrinter() # Object from class SystemInfoPrinter
+    start_time = None
 
     while True:
-
         """ 
         If values are higher than a certain % for a certain amount of time 
         then send an alert message and repeat every minute/s 
         
         """
-
         info_printer.update_system_info()
 
         # CPU message
-        if info_printer.cpu_percentage > 50:
-            elapsed_time = time.time() - start_time
-            if elapsed_time > 30:
+        if info_printer.cpu_percentage > 70:
+
+            if start_time is None:
+                    start_time = datetime.now()
+                    print('start time inside the if loop', start_time)
+
+            elapsed_time = datetime.now() - start_time
+            print('elapsed time', elapsed_time)
+            
+            if elapsed_time.total_seconds() > 30:
+                # TG bot message method
+                bot.send_message(chat_id=target_chat_id, text=cpu_message)
+                start_time = datetime.now() # Reset
+        else:
+            start_time = None
+
+                # info_printer.print_system_info()
 
             # try:
             #     message = client.messages.create(
@@ -112,12 +125,7 @@ def main():
             # except:
             #     bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
                 
-                # TG bot message method
-                bot.send_message(chat_id=target_chat_id, text=cpu_message)
-                start_time = time.time() # Reset start_time
-                # info_printer.print_system_info()
 
-            
         """
         Errors are managed by the Twilio module 
         and by the try/except condition,
