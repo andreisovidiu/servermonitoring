@@ -5,7 +5,6 @@ import time
 from twilio.rest import Client
 from dotenv import load_dotenv
 
-
 """
 
 Psutil package implementation to get system information
@@ -114,7 +113,6 @@ def main():
 
         # CPU message
         if cpu_percentage > 80 and elapsed_time > time_passed:
-            # then elapsed_time = 0 
             try:
                 message = client.messages.create(
                     to= number1,
@@ -127,33 +125,33 @@ def main():
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
                 print_system_info()
 
-        # Memory message
-        if memory_percentage > 1 and elapsed_time > time_passed:
-            try:
-                message = client.messages.create(
-                    to= number1,
-                    from_=twilio_number,
-                    body="ALERT MEMORY USAGE, check the server.")
-            except:
-                 bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+        # # Memory message
+        # if memory_percentage > 1 and elapsed_time > time_passed:
+        #     # try:
+        #     #     message = client.messages.create(
+        #     #         to= number1,
+        #     #         from_=twilio_number,
+        #     #         body="ALERT MEMORY USAGE, check the server.")
+        #     # except:
+        #     #      bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
             
-            # TG bot message method
-            bot.send_message(chat_id=target_chat_id, text=ram_message)
-            print_system_info()
+        #     # TG bot message method
+        #     bot.send_message(chat_id=target_chat_id, text=ram_message)
+        #     print_system_info()
             
-        # Disk message
-        if disk_space_percentage > 80 and elapsed_time > time_passed:
-            try:
-                message = client.messages.create(
-                    to= number1,
-                    from_=twilio_number,
-                    body="ALERT DISK USAGE, check the server.")
-            except:
-                bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+        # # Disk message
+        # if disk_space_percentage > 80 and elapsed_time > time_passed:
+        #     try:
+        #         message = client.messages.create(
+        #             to= number1,
+        #             from_=twilio_number,
+        #             body="ALERT DISK USAGE, check the server.")
+        #     except:
+        #         bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
 
-            # TG bot message method
-            bot.send_message(chat_id=target_chat_id, text=disk_message)
-            print_system_info()
+        #     # TG bot message method
+        #     bot.send_message(chat_id=target_chat_id, text=disk_message)
+        #     print_system_info()
             
         """
         Errors are managed by the Twilio module 
