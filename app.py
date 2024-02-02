@@ -85,34 +85,23 @@ def main():
     while True:
 
         """ 
-        If values are higher than a
-        certain % for a certain amount of time 
-        then send an alert message and repeat
-        every minute/s 
+        If values are higher than a certain % for a certain amount of time 
+        then send an alert message and repeat every minute/s 
         
         """
-
-        # Constant var
-        time_passed = 5 # Value in seconds
-
-        """
-        List of three INDIPENDENT conditions:
-        CPU
-        MEMORY
-        DISK
-        
-        """
+        start_time = time.time()
 
         # CPU message
         if cpu_percentage > 0:
-            time.sleep(20)
-            try:
-                message = client.messages.create(
-                    to= number1,
-                    from_=twilio_number,
-                    body="ALERT CPU USAGE, check the server.")
-            except:
-                bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+            elapsed_time = time.time() - start_time
+            if elapsed_time > 30:
+            # try:
+            #     message = client.messages.create(
+            #         to= number1,
+            #         from_=twilio_number,
+            #         body="ALERT CPU USAGE, check the server.")
+            # except:
+            #     bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
                 
                 # TG bot message method
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
