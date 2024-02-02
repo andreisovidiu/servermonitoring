@@ -5,7 +5,6 @@ import time
 from twilio.rest import Client
 from dotenv import load_dotenv
 
-
 """
 
 Psutil package implementation to get system information
