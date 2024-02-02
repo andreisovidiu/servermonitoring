@@ -7,49 +7,50 @@ from dotenv import load_dotenv
 
 """
 
-Psutil package implementation to get system information
+Psutil package class to get system information
 
 """
 
-# Get CPU usage
-cpu_percentage = psutil.cpu_percent(interval=1)  # Interval is in seconds
+class SystemInfoPrinter:
+    def __init__(self):
+        self.cpu_percentage = 0
+        self.total_memory = 0
+        self.available_memory = 0
+        self.used_memory = 0
+        self.memory_percentage = 0
+        self.total_disk_space = 0
+        self.used_disk_space = 0
+        self.free_disk_space = 0
+        self.disk_space_percentage = 0
 
-# Get memory (RAM) usage
-memory = psutil.virtual_memory()
-total_memory = memory.total
-available_memory = memory.available
-used_memory = memory.used
-memory_percentage = memory.percent
-    
-# Get disk usage
-disk_usage = psutil.disk_usage('/')
-total_disk_space = disk_usage.total
-used_disk_space = disk_usage.used
-free_disk_space = disk_usage.free
-disk_space_percentage = disk_usage.percent
-
-# Print values function
-def print_system_info():
-
-    # Print the obtained system information (using formatted strings to display GB values)
-    print() # Blank space left just for aesthetic reasons
-    print(f"CPU Usage: {cpu_percentage}%")
-
-    print(f"Total Memory: {total_memory / (1024 ** 3):.2f} GB")
-    print(f"Available Memory: {available_memory / (1024 ** 3):.2f} GB")
-    print(f"Used Memory: {used_memory / (1024 ** 3):.2f} GB")
-    print(f"Memory Usage: {memory_percentage}%")
-
-    print(f"Total Disk Space: {total_disk_space / (1024 ** 3):.2f} GB")
-    print(f"Used Disk Space: {used_disk_space / (1024 ** 3):.2f} GB")
-    print(f"Free Disk Space: {free_disk_space / (1024 ** 3):.2f} GB")
-    print(f"Disk Space Usage: {disk_space_percentage}%")
+    def update_system_info(self):
+        self.cpu_percentage = psutil.cpu_percent(interval=1)
+        memory = psutil.virtual_memory()
+        self.total_memory = memory.total
+        self.available_memory = memory.available
+        self.used_memory = memory.used
+        self.memory_percentage = memory.percent
+        disk_usage = psutil.disk_usage('/')
+        self.total_disk_space = disk_usage.total
+        self.used_disk_space = disk_usage.used
+        self.free_disk_space = disk_usage.free
+        self.disk_space_percentage = disk_usage.percent
+        
+    def print_system_info(self):
+        print() # Blank space left just for aesthetic reasons
+        print(f"CPU Usage: {self.cpu_percentage}%")
+        print(f"Total Memory: {self.total_memory / (1024 ** 3):.2f} GB")
+        print(f"Available Memory: {self.available_memory / (1024 ** 3):.2f} GB")
+        print(f"Used Memory: {self.used_memory / (1024 ** 3):.2f} GB")
+        print(f"Memory Usage: {self.memory_percentage}%")
+        print(f"Total Disk Space: {self.total_disk_space / (1024 ** 3):.2f} GB")
+        print(f"Used Disk Space: {self.used_disk_space / (1024 ** 3):.2f} GB")
+        print(f"Free Disk Space: {self.free_disk_space / (1024 ** 3):.2f} GB")
+        print(f"Disk Space Usage: {self.disk_space_percentage}%")
 
 """
-
 
 Twilio and Telegram code implementation
-
 
 """
 
@@ -64,11 +65,6 @@ client = Client(account_sid, auth_token)
 # Telegram 
 bot = telebot.TeleBot(os.getenv('API_TOKEN'))
 
-# /start and /help messages handling
-@bot.message_handler(commands=['start', 'help'])
-def send_welcome(message):
-	bot.reply_to(message, "Howdy, how are you doing?")
-
 # TG channel id
 target_chat_id = os.getenv('CHAT_ID')
 
@@ -81,7 +77,18 @@ number1 = os.getenv('MY_NUMBER')
 number2 = os.getenv('NUMBER2')
 twilio_number = os.getenv('TWILIO_NUMBER')
 
+"""
+
+Main
+
+"""
+
 def main():
+
+    info_printer = SystemInfoPrinter() # Object
+
+    start_time = time.time()
+
     while True:
 
         """ 
@@ -89,12 +96,14 @@ def main():
         then send an alert message and repeat every minute/s 
         
         """
-        start_time = time.time()
+
+        info_printer.update_system_info()
 
         # CPU message
-        if cpu_percentage > 0:
+        if info_printer.cpu_percentage > 50:
             elapsed_time = time.time() - start_time
             if elapsed_time > 30:
+
             # try:
             #     message = client.messages.create(
             #         to= number1,
@@ -105,35 +114,8 @@ def main():
                 
                 # TG bot message method
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
-                print_system_info()
+                # info_printer.print_system_info()
 
-        # # Memory message
-        # if memory_percentage > 1 and elapsed_time > time_passed:
-        #     # try:
-        #     #     message = client.messages.create(
-        #     #         to= number1,
-        #     #         from_=twilio_number,
-        #     #         body="ALERT MEMORY USAGE, check the server.")
-        #     # except:
-        #     #      bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
-            
-        #     # TG bot message method
-        #     bot.send_message(chat_id=target_chat_id, text=ram_message)
-        #     print_system_info()
-            
-        # # Disk message
-        # if disk_space_percentage > 80 and elapsed_time > time_passed:
-        #     try:
-        #         message = client.messages.create(
-        #             to= number1,
-        #             from_=twilio_number,
-        #             body="ALERT DISK USAGE, check the server.")
-        #     except:
-        #         bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
-
-        #     # TG bot message method
-        #     bot.send_message(chat_id=target_chat_id, text=disk_message)
-        #     print_system_info()
             
         """
         Errors are managed by the Twilio module 
@@ -142,8 +124,9 @@ def main():
         https://www.twilio.com/docs/errors/21608
         
         """
-            
-        time.sleep(time_passed) 
+           
+        time.sleep(5)
+        info_printer.print_system_info()
 
 if __name__ == "__main__":
     main()
