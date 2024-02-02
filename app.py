@@ -73,6 +73,7 @@ cpu_message = 'CPU usage alert, check the server'
 ram_message = 'RAM usage alert, check the server'
 disk_message = 'DISK usage alert, check the server'
 
+# .env constants
 number1 = os.getenv('MY_NUMBER')
 number2 = os.getenv('NUMBER2')
 twilio_number = os.getenv('TWILIO_NUMBER')
@@ -86,7 +87,6 @@ Main
 def main():
 
     info_printer = SystemInfoPrinter() # Object
-
     start_time = time.time()
 
     while True:
@@ -114,6 +114,7 @@ def main():
                 
                 # TG bot message method
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
+                start_time = time.time() # Reset start_time
                 # info_printer.print_system_info()
 
             
@@ -124,7 +125,7 @@ def main():
         https://www.twilio.com/docs/errors/21608
         
         """
-           
+        # Remove when implemented   
         time.sleep(5)
         info_printer.print_system_info()
 
