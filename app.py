@@ -114,6 +114,7 @@ def main():
 
         # CPU message
         if cpu_percentage > 80 and elapsed_time > time_passed:
+            # then elapsed_time = 0 
             try:
                 message = client.messages.create(
                     to= number1,
