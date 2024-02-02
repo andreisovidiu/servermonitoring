@@ -77,12 +77,6 @@ cpu_message = 'CPU usage alert, check the server'
 ram_message = 'RAM usage alert, check the server'
 disk_message = 'DISK usage alert, check the server'
 
-# Loop that checks for messages
-# bot.infinity_polling()
-
-# Initial time 
-start_time = time.time()
-
 number1 = os.getenv('MY_NUMBER')
 number2 = os.getenv('NUMBER2')
 twilio_number = os.getenv('TWILIO_NUMBER')
@@ -97,11 +91,9 @@ def main():
         every minute/s 
         
         """
-        
-        elapsed_time = time.time() - start_time
 
         # Constant var
-        time_passed = 20 # Value in seconds
+        time_passed = 5 # Value in seconds
 
         """
         List of three INDIPENDENT conditions:
@@ -112,7 +104,8 @@ def main():
         """
 
         # CPU message
-        if cpu_percentage > 80 and elapsed_time > time_passed:
+        if cpu_percentage > 0:
+            time.sleep(20)
             try:
                 message = client.messages.create(
                     to= number1,
