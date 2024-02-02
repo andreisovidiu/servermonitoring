@@ -107,24 +107,26 @@ def main():
 
             elapsed_time = datetime.now() - start_time
             print('elapsed time', elapsed_time)
-            
-            if elapsed_time.total_seconds() > 30:
-                # TG bot message method
+
+            if elapsed_time.total_seconds() > 30: # Seconds
+
+                # Twilio message
+                try:
+                    message = client.messages.create(
+                        to= number1,
+                        from_=twilio_number,
+                        body="ALERT CPU USAGE, check the server.")
+                except:
+                    bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+
+                # TG bot message
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
                 start_time = datetime.now() # Reset
-        else:
-            start_time = None
 
                 # info_printer.print_system_info()
 
-            # try:
-            #     message = client.messages.create(
-            #         to= number1,
-            #         from_=twilio_number,
-            #         body="ALERT CPU USAGE, check the server.")
-            # except:
-            #     bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
-                
+        else:
+            start_time = None
 
         """
         Errors are managed by the Twilio module 
