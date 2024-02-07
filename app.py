@@ -98,7 +98,7 @@ def main():
         """
         info_printer.update_system_info()
 
-        # CPU message
+        # CPU alarm
         if info_printer.cpu_percentage > 70:
 
             if start_time is None:
@@ -127,6 +127,9 @@ def main():
 
         else:
             start_time = None
+
+        # RAM alarm
+        # STORAGE alarm
 
         """
         Errors are managed by the Twilio module 
