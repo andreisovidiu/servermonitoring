@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 """
 
-Psutil package class to get system information
+Psutil package class to get system information (CPU, MEMORY, DISK)
 
 """
 
@@ -71,7 +71,7 @@ target_chat_id = os.getenv('CHAT_ID')
 
 # Alert messages for each case
 cpu_message = 'CPU usage alert, check the server'
-ram_message = 'RAM usage alert, check the server'
+memory_message = 'MEMORY usage alert, check the server'
 disk_message = 'DISK usage alert, check the server'
 
 # .env constants
@@ -88,7 +88,9 @@ Main
 def main():
 
     info_printer = SystemInfoPrinter() # Object from class SystemInfoPrinter
-    start_time = None
+    cpu_start_time = None
+    memory_start_time = None
+    disk_start_time = None
 
     while True:
         """ 
@@ -98,14 +100,18 @@ def main():
         """
         info_printer.update_system_info()
 
-        # CPU alarm
+        """
+
+        CPU ALARM
+
+        """
         if info_printer.cpu_percentage > 70:
 
-            if start_time is None:
-                    start_time = datetime.now()
-                    print('start time inside the if loop', start_time)
+            if cpu_start_time is None:
+                    cpu_start_time = datetime.now()
+                    print('start time inside the if loop', cpu_start_time)
 
-            elapsed_time = datetime.now() - start_time
+            elapsed_time = datetime.now() - cpu_start_time
             print('elapsed time', elapsed_time)
 
             if elapsed_time.total_seconds() > 30: # Seconds
@@ -121,15 +127,54 @@ def main():
 
                 # TG bot message
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
-                start_time = datetime.now() # Reset
+                cpu_start_time = datetime.now() # Reset
 
                 # info_printer.print_system_info()
 
         else:
-            start_time = None
+            cpu_start_time = None
 
-        # RAM alarm
-        # STORAGE alarm
+        """
+        
+        MEMORY ALARM
+        
+        """
+        if info_printer.memory_percentage > 50:
+
+            if memory_start_time is None:
+                    memory_start_time = datetime.now()
+                    print('start time inside the if loop', memory_start_time)
+
+            elapsed_time = datetime.now() - memory_start_time
+            print('elapsed time', elapsed_time)
+
+            if elapsed_time.total_seconds() > 10: # Seconds
+
+                # Twilio message
+                try:
+                    message = client.messages.create(
+                        to= number1,
+                        from_=twilio_number,
+                        body="ALERT MEMORY USAGE, check the server.")
+                except:
+                    bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+
+                # TG bot message
+                bot.send_message(chat_id=target_chat_id, text=memory_message)
+                memory_start_time = datetime.now() # Reset
+
+                # info_printer.print_system_info()
+
+        else:
+            memory_start_time = None
+
+
+        """ 
+        
+        DISK ALARM
+        
+        """
+
 
         """
         Errors are managed by the Twilio module 
