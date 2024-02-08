@@ -105,7 +105,8 @@ def main():
         CPU ALARM
 
         """
-        if info_printer.cpu_percentage > 70:
+
+        if info_printer.cpu_percentage > 50:
 
             if cpu_start_time is None:
                     cpu_start_time = datetime.now()
@@ -139,6 +140,7 @@ def main():
         MEMORY ALARM
         
         """
+
         if info_printer.memory_percentage > 50:
 
             if memory_start_time is None:
@@ -148,7 +150,7 @@ def main():
             elapsed_time = datetime.now() - memory_start_time
             print('elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 10: # Seconds
+            if elapsed_time.total_seconds() > 15: # Seconds
 
                 # Twilio message
                 try:
@@ -168,13 +170,40 @@ def main():
         else:
             memory_start_time = None
 
-
         """ 
         
         DISK ALARM
         
         """
 
+        if info_printer.disk_space_percentage > 50:
+
+            if disk_start_time is None:
+                    disk_start_time = datetime.now()
+                    print('start time inside the if loop', disk_start_time)
+
+            elapsed_time = datetime.now() - disk_start_time
+            print('elapsed time', elapsed_time)
+
+            if elapsed_time.total_seconds() > 15: # Seconds
+
+                # Twilio message
+                try:
+                    message = client.messages.create(
+                        to= number1,
+                        from_=twilio_number,
+                        body="ALERT DISK USAGE, check the server.")
+                except:
+                    bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+
+                # TG bot message
+                bot.send_message(chat_id=target_chat_id, text=disk_message)
+                disk_start_time = datetime.now() # Reset
+
+                # info_printer.print_system_info()
+
+        else:
+            disk_start_time = None
 
         """
         Errors are managed by the Twilio module 
@@ -183,7 +212,7 @@ def main():
         https://www.twilio.com/docs/errors/21608
         
         """
-        # Remove when implemented   
+        # Remove when implemented, uncomment only for test purposes   
         time.sleep(5)
         info_printer.print_system_info()
 
