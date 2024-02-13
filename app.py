@@ -7,49 +7,50 @@ from dotenv import load_dotenv
 
 """
 
-Psutil package implementation to get system information
+Psutil package class to get system information (CPU, MEMORY, DISK)
 
 """
 
-# Get CPU usage
-cpu_percentage = psutil.cpu_percent(interval=1)  # Interval is in seconds
+class SystemInfoPrinter:
+    def __init__(self):
+        self.cpu_percentage = 0
+        self.total_memory = 0
+        self.available_memory = 0
+        self.used_memory = 0
+        self.memory_percentage = 0
+        self.total_disk_space = 0
+        self.used_disk_space = 0
+        self.free_disk_space = 0
+        self.disk_space_percentage = 0
 
-# Get memory (RAM) usage
-memory = psutil.virtual_memory()
-total_memory = memory.total
-available_memory = memory.available
-used_memory = memory.used
-memory_percentage = memory.percent
-    
-# Get disk usage
-disk_usage = psutil.disk_usage('/')
-total_disk_space = disk_usage.total
-used_disk_space = disk_usage.used
-free_disk_space = disk_usage.free
-disk_space_percentage = disk_usage.percent
-
-# Print values function
-def print_system_info():
-
-    # Print the obtained system information (using formatted strings to display GB values)
-    print() # Blank space left just for aesthetic reasons
-    print(f"CPU Usage: {cpu_percentage}%")
-
-    print(f"Total Memory: {total_memory / (1024 ** 3):.2f} GB")
-    print(f"Available Memory: {available_memory / (1024 ** 3):.2f} GB")
-    print(f"Used Memory: {used_memory / (1024 ** 3):.2f} GB")
-    print(f"Memory Usage: {memory_percentage}%")
-
-    print(f"Total Disk Space: {total_disk_space / (1024 ** 3):.2f} GB")
-    print(f"Used Disk Space: {used_disk_space / (1024 ** 3):.2f} GB")
-    print(f"Free Disk Space: {free_disk_space / (1024 ** 3):.2f} GB")
-    print(f"Disk Space Usage: {disk_space_percentage}%")
+    def update_system_info(self):
+        self.cpu_percentage = psutil.cpu_percent(interval=1)
+        memory = psutil.virtual_memory()
+        self.total_memory = memory.total
+        self.available_memory = memory.available
+        self.used_memory = memory.used
+        self.memory_percentage = memory.percent
+        disk_usage = psutil.disk_usage('/')
+        self.total_disk_space = disk_usage.total
+        self.used_disk_space = disk_usage.used
+        self.free_disk_space = disk_usage.free
+        self.disk_space_percentage = disk_usage.percent
+        
+    def print_system_info(self):
+        print() # Blank space left just for aesthetic reasons
+        print(f"CPU Usage: {self.cpu_percentage}%")
+        print(f"Total Memory: {self.total_memory / (1024 ** 3):.2f} GB")
+        print(f"Available Memory: {self.available_memory / (1024 ** 3):.2f} GB")
+        print(f"Used Memory: {self.used_memory / (1024 ** 3):.2f} GB")
+        print(f"Memory Usage: {self.memory_percentage}%")
+        print(f"Total Disk Space: {self.total_disk_space / (1024 ** 3):.2f} GB")
+        print(f"Used Disk Space: {self.used_disk_space / (1024 ** 3):.2f} GB")
+        print(f"Free Disk Space: {self.free_disk_space / (1024 ** 3):.2f} GB")
+        print(f"Disk Space Usage: {self.disk_space_percentage}%")
 
 """
-
 
 Twilio and Telegram code implementation
-
 
 """
 
@@ -64,96 +65,145 @@ client = Client(account_sid, auth_token)
 # Telegram 
 bot = telebot.TeleBot(os.getenv('API_TOKEN'))
 
-# /start and /help messages handling
-@bot.message_handler(commands=['start', 'help'])
-def send_welcome(message):
-	bot.reply_to(message, "Howdy, how are you doing?")
-
 # TG channel id
 target_chat_id = os.getenv('CHAT_ID')
 
 # Alert messages for each case
 cpu_message = 'CPU usage alert, check the server'
-ram_message = 'RAM usage alert, check the server'
+memory_message = 'MEMORY usage alert, check the server'
 disk_message = 'DISK usage alert, check the server'
 
-# Loop that checks for messages
-# bot.infinity_polling()
-
-# Initial time 
-start_time = time.time()
-
+# .env constants
 number1 = os.getenv('MY_NUMBER')
 number2 = os.getenv('NUMBER2')
 twilio_number = os.getenv('TWILIO_NUMBER')
 
+"""
+
+Main
+
+"""
+
 def main():
+
+    info_printer = SystemInfoPrinter() # Object from class SystemInfoPrinter
+    cpu_start_time = None
+    memory_start_time = None
+    disk_start_time = None
+
     while True:
+        """ 
+        If values are higher than a certain % for a certain amount of time 
+        then send an alert message and repeat every minute/s 
+        
+        """
+        info_printer.update_system_info()
+
+        """
+
+        CPU ALARM
+
+        """
+
+        if info_printer.cpu_percentage > 50:
+
+            if cpu_start_time is None:
+                    cpu_start_time = datetime.now()
+                    print('start time inside the if loop', cpu_start_time)
+
+            elapsed_time = datetime.now() - cpu_start_time
+            print('elapsed time', elapsed_time)
+
+            if elapsed_time.total_seconds() > 30: # Seconds
+
+                # Twilio message
+                try:
+                    message = client.messages.create(
+                        to= number1,
+                        from_=twilio_number,
+                        body="ALERT CPU USAGE, check the server.")
+                except:
+                    bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+
+                # TG bot message
+                bot.send_message(chat_id=target_chat_id, text=cpu_message)
+                cpu_start_time = datetime.now() # Reset
+
+                # info_printer.print_system_info()
+
+        else:
+            cpu_start_time = None
+
+        """
+        
+        MEMORY ALARM
+        
+        """
+
+        if info_printer.memory_percentage > 50:
+
+            if memory_start_time is None:
+                    memory_start_time = datetime.now()
+                    print('start time inside the if loop', memory_start_time)
+
+            elapsed_time = datetime.now() - memory_start_time
+            print('elapsed time', elapsed_time)
+
+            if elapsed_time.total_seconds() > 15: # Seconds
+
+                # Twilio message
+                try:
+                    message = client.messages.create(
+                        to= number1,
+                        from_=twilio_number,
+                        body="ALERT MEMORY USAGE, check the server.")
+                except:
+                    bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+
+                # TG bot message
+                bot.send_message(chat_id=target_chat_id, text=memory_message)
+                memory_start_time = datetime.now() # Reset
+
+                # info_printer.print_system_info()
+
+        else:
+            memory_start_time = None
 
         """ 
-        If values are higher than a
-        certain % for a certain amount of time 
-        then send an alert message and repeat
-        every minute/s 
         
-        """
-        
-        elapsed_time = time.time() - start_time
-
-        # Constant var
-        time_passed = 20 # Value in seconds
-
-        """
-        List of three INDIPENDENT conditions:
-        CPU
-        MEMORY
-        DISK
+        DISK ALARM
         
         """
 
-        # CPU message
-        if cpu_percentage > 80 and elapsed_time > time_passed:
-            # then elapsed_time = 0 
-            try:
-                message = client.messages.create(
-                    to= number1,
-                    from_=twilio_number,
-                    body="ALERT CPU USAGE, check the server.")
-            except:
-                bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
-                
-                # TG bot message method
-                bot.send_message(chat_id=target_chat_id, text=cpu_message)
-                print_system_info()
+        if info_printer.disk_space_percentage > 50:
 
-        # Memory message
-        if memory_percentage > 1 and elapsed_time > time_passed:
-            try:
-                message = client.messages.create(
-                    to= number1,
-                    from_=twilio_number,
-                    body="ALERT MEMORY USAGE, check the server.")
-            except:
-                 bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
-            
-            # TG bot message method
-            bot.send_message(chat_id=target_chat_id, text=ram_message)
-            print_system_info()
-            
-        # Disk message
-        if disk_space_percentage > 80 and elapsed_time > time_passed:
-            try:
-                message = client.messages.create(
-                    to= number1,
-                    from_=twilio_number,
-                    body="ALERT DISK USAGE, check the server.")
-            except:
-                bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+            if disk_start_time is None:
+                    disk_start_time = datetime.now()
+                    print('start time inside the if loop', disk_start_time)
 
-            # TG bot message method
-            bot.send_message(chat_id=target_chat_id, text=disk_message)
-            print_system_info()
-            
+            elapsed_time = datetime.now() - disk_start_time
+            print('elapsed time', elapsed_time)
+
+            if elapsed_time.total_seconds() > 15: # Seconds
+
+                # Twilio message
+                try:
+                    message = client.messages.create(
+                        to= number1,
+                        from_=twilio_number,
+                        body="ALERT DISK USAGE, check the server.")
+                except:
+                    bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+
+                # TG bot message
+                bot.send_message(chat_id=target_chat_id, text=disk_message)
+                disk_start_time = datetime.now() # Reset
+
+                # info_printer.print_system_info()
+
+        else:
+            disk_start_time = None
+
         """
         Errors are managed by the Twilio module 
         and by the try/except condition,
@@ -161,8 +211,9 @@ def main():
         https://www.twilio.com/docs/errors/21608
         
         """
-            
-        time.sleep(time_passed) 
+        # Remove when implemented, uncomment only for test purposes   
+        time.sleep(5)
+        info_printer.print_system_info()
 
 if __name__ == "__main__":
     main()
