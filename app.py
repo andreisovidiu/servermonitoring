@@ -110,7 +110,6 @@ def main():
 
             if cpu_start_time is None:
                     cpu_start_time = datetime.now()
-                    print('start time inside the if loop', cpu_start_time)
 
             elapsed_time = datetime.now() - cpu_start_time
             print('CPU elapsed time', elapsed_time)
@@ -145,7 +144,6 @@ def main():
 
             if memory_start_time is None:
                     memory_start_time = datetime.now()
-                    print('start time inside the if loop', memory_start_time)
 
             elapsed_time = datetime.now() - memory_start_time
             print('MEMORY elapsed time', elapsed_time)
@@ -180,7 +178,6 @@ def main():
 
             if disk_start_time is None:
                     disk_start_time = datetime.now()
-                    print('start time inside the if loop', disk_start_time)
 
             elapsed_time = datetime.now() - disk_start_time
             print('DISK elapsed time', elapsed_time)
