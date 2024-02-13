@@ -112,7 +112,7 @@ def main():
                     print('start time inside the if loop', cpu_start_time)
 
             elapsed_time = datetime.now() - cpu_start_time
-            print('elapsed time', elapsed_time)
+            print('CPU elapsed time', elapsed_time)
 
             if elapsed_time.total_seconds() > 30: # Seconds
 
@@ -147,7 +147,7 @@ def main():
                     print('start time inside the if loop', memory_start_time)
 
             elapsed_time = datetime.now() - memory_start_time
-            print('elapsed time', elapsed_time)
+            print('MEMORY elapsed time', elapsed_time)
 
             if elapsed_time.total_seconds() > 15: # Seconds
 
@@ -182,7 +182,7 @@ def main():
                     print('start time inside the if loop', disk_start_time)
 
             elapsed_time = datetime.now() - disk_start_time
-            print('elapsed time', elapsed_time)
+            print('DISK elapsed time', elapsed_time)
 
             if elapsed_time.total_seconds() > 15: # Seconds
 
