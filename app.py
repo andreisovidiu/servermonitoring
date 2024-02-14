@@ -27,7 +27,7 @@ class SystemInfoPrinter:
     def update_system_info(self):
         self.cpu_percentage = psutil.cpu_percent(interval=1)
         memory = psutil.virtual_memory()
-        self.total_memory = memory.total
+        self.total_memory = memory.total # Machine might have multiple RAM modules
         self.available_memory = memory.available
         self.used_memory = memory.used
         self.memory_percentage = memory.percent
@@ -112,9 +112,9 @@ def main():
                     cpu_start_time = datetime.now()
 
             elapsed_time = datetime.now() - cpu_start_time
-            print('CPU elapsed time', elapsed_time)
+            # print('CPU elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 30: # Seconds
+            if elapsed_time.total_seconds() > 15: # Seconds
 
                 # Twilio message
                 try:
@@ -129,7 +129,7 @@ def main():
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
                 cpu_start_time = datetime.now() # Reset
 
-                # info_printer.print_system_info()
+                info_printer.print_system_info()
 
         else:
             cpu_start_time = None
@@ -146,7 +146,7 @@ def main():
                     memory_start_time = datetime.now()
 
             elapsed_time = datetime.now() - memory_start_time
-            print('MEMORY elapsed time', elapsed_time)
+            # print('MEMORY elapsed time', elapsed_time)
 
             if elapsed_time.total_seconds() > 15: # Seconds
 
@@ -163,7 +163,7 @@ def main():
                 bot.send_message(chat_id=target_chat_id, text=memory_message)
                 memory_start_time = datetime.now() # Reset
 
-                # info_printer.print_system_info()
+                info_printer.print_system_info()
 
         else:
             memory_start_time = None
@@ -180,7 +180,7 @@ def main():
                     disk_start_time = datetime.now()
 
             elapsed_time = datetime.now() - disk_start_time
-            print('DISK elapsed time', elapsed_time)
+            # print('DISK elapsed time', elapsed_time)
 
             if elapsed_time.total_seconds() > 15: # Seconds
 
@@ -197,7 +197,7 @@ def main():
                 bot.send_message(chat_id=target_chat_id, text=disk_message)
                 disk_start_time = datetime.now() # Reset
 
-                # info_printer.print_system_info()
+                info_printer.print_system_info()
 
         else:
             disk_start_time = None
@@ -210,8 +210,8 @@ def main():
         
         """
         # Remove when implemented, uncomment only for test purposes   
-        time.sleep(5)
-        info_printer.print_system_info()
+        # time.sleep(5)
+        # info_printer.print_system_info()
 
 if __name__ == "__main__":
     main()
