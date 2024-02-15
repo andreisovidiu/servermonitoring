@@ -119,7 +119,7 @@ def main():
 
         """
 
-        if info_printer.cpu_percentage > 50:
+        if info_printer.cpu_percentage > 80:
 
             if cpu_start_time is None:
                     cpu_start_time = datetime.now()
@@ -127,7 +127,7 @@ def main():
             elapsed_time = datetime.now() - cpu_start_time
             # print('CPU elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 15: # Seconds
+            if elapsed_time.total_seconds() > 600: # Seconds
 
                 # Twilio message
                 try:
@@ -154,7 +154,7 @@ def main():
         
         """
 
-        if info_printer.memory_percentage > 50:
+        if info_printer.memory_percentage > 80:
 
             if memory_start_time is None:
                     memory_start_time = datetime.now()
@@ -162,7 +162,7 @@ def main():
             elapsed_time = datetime.now() - memory_start_time
             # print('MEMORY elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 15: # Seconds
+            if elapsed_time.total_seconds() > 600: # Seconds
 
                 # Twilio message
                 try:
@@ -189,7 +189,7 @@ def main():
         
         """
 
-        if info_printer.disk_space_percentage > 50:
+        if info_printer.disk_space_percentage > 80:
 
             if disk_start_time is None:
                     disk_start_time = datetime.now()
@@ -197,7 +197,7 @@ def main():
             elapsed_time = datetime.now() - disk_start_time
             # print('DISK elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 15: # Seconds
+            if elapsed_time.total_seconds() > 600: # Seconds
 
                 # Twilio message
                 try:
