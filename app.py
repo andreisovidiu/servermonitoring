@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 Logs settings 
 
 """
+
 logging.basicConfig(filename='monitor.log', level=logging.WARNING,
     format='%(asctime)s:%(levelname)s:%(message)s')
 
@@ -136,7 +137,8 @@ def main():
                         body="ALERT CPU USAGE, check the server.")
                 except:
                     bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
-
+                    logging.warning('Cellphone message not sent, check twilio.com/console')
+                    
                 # TG bot message
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
                 cpu_start_time = datetime.now() # Reset
@@ -170,6 +172,7 @@ def main():
                         body="ALERT MEMORY USAGE, check the server.")
                 except:
                     bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+                    logging.warning('Cellphone message not sent, check twilio.com/console')
 
                 # TG bot message
                 bot.send_message(chat_id=target_chat_id, text=memory_message)
@@ -204,6 +207,7 @@ def main():
                         body="ALERT DISK USAGE, check the server.")
                 except:
                     bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+                    logging.warning('Cellphone message not sent, check twilio.com/console')
 
                 # TG bot message
                 bot.send_message(chat_id=target_chat_id, text=disk_message)
@@ -221,9 +225,9 @@ def main():
         https://www.twilio.com/docs/errors/21608
         
         """
-        # Remove when implemented, uncomment only for test purposes   
-        time.sleep(3)
-        info_printer.print_system_info()
+        # Remove when implemented, uncomment only for debug purposes   
+        # time.sleep(3)
+        # info_printer.print_system_info()
 
 if __name__ == "__main__":
     main()
