@@ -1,3 +1,4 @@
+import logging
 import os
 import telebot
 import psutil
@@ -5,6 +6,14 @@ import time
 from twilio.rest import Client
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
+
+""" 
+
+Logs settings 
+
+"""
+logging.basicConfig(filename='monitor.log', level=logging.WARNING,
+    format='%(asctime)s:%(levelname)s:%(message)s')
 
 """
 
@@ -38,16 +47,19 @@ class SystemInfoPrinter:
         self.disk_space_percentage = disk_usage.percent
         
     def print_system_info(self):
-        print() # Blank space left just for aesthetic reasons
-        print(f"CPU Usage: {self.cpu_percentage}%")
-        print(f"Total Memory: {self.total_memory / (1024 ** 3):.2f} GB")
-        print(f"Available Memory: {self.available_memory / (1024 ** 3):.2f} GB")
-        print(f"Used Memory: {self.used_memory / (1024 ** 3):.2f} GB")
-        print(f"Memory Usage: {self.memory_percentage}%")
-        print(f"Total Disk Space: {self.total_disk_space / (1024 ** 3):.2f} GB")
-        print(f"Used Disk Space: {self.used_disk_space / (1024 ** 3):.2f} GB")
-        print(f"Free Disk Space: {self.free_disk_space / (1024 ** 3):.2f} GB")
-        print(f"Disk Space Usage: {self.disk_space_percentage}%")
+        logging.warning(
+            "\n"
+            f"CPU Usage: {self.cpu_percentage}%, \n"
+            f"Total Memory: {self.total_memory / (1024 ** 3):.2f} GB, \n"
+            f"Available Memory: {self.available_memory / (1024 ** 3):.2f} GB, \n"
+            f"Used Memory: {self.used_memory / (1024 ** 3):.2f} GB, \n"
+            f"Memory Usage: {self.memory_percentage}%, \n"
+            f"Total Disk Space: {self.total_disk_space / (1024 ** 3):.2f} GB, \n"
+            f"Used Disk Space: {self.used_disk_space / (1024 ** 3):.2f} GB, \n"
+            f"Free Disk Space: {self.free_disk_space / (1024 ** 3):.2f} GB, \n"
+            f"Disk Space Usage: {self.disk_space_percentage}%"
+            "\n"
+        )
 
 """
 
@@ -210,8 +222,8 @@ def main():
         
         """
         # Remove when implemented, uncomment only for test purposes   
-        # time.sleep(5)
-        # info_printer.print_system_info()
+        time.sleep(3)
+        info_printer.print_system_info()
 
 if __name__ == "__main__":
     main()
