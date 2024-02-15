@@ -83,9 +83,9 @@ bot = telebot.TeleBot(os.getenv('API_TOKEN'))
 target_chat_id = os.getenv('CHAT_ID')
 
 # Alert messages for each case
-cpu_message = 'CPU usage alert, check the server'
-memory_message = 'MEMORY usage alert, check the server'
-disk_message = 'DISK usage alert, check the server'
+cpu_message = 'Server has high CPU usage, try to look which processes are using the resources on the process tab.'
+memory_message = 'Server has high Memory usage. Check out the process tab to see which process is using the most memory.'
+disk_message = 'Server has high Disk usage, try to free up some disk space to clear this alert.'
 
 # .env constants
 number1 = os.getenv('MY_NUMBER')
@@ -119,7 +119,7 @@ def main():
 
         """
 
-        if info_printer.cpu_percentage > 80:
+        if info_printer.cpu_percentage > 75:
 
             if cpu_start_time is None:
                     cpu_start_time = datetime.now()
@@ -127,7 +127,7 @@ def main():
             elapsed_time = datetime.now() - cpu_start_time
             # print('CPU elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 600: # Seconds
+            if elapsed_time.total_seconds() > 30: # Seconds
 
                 # Twilio message
                 try:
@@ -154,7 +154,7 @@ def main():
         
         """
 
-        if info_printer.memory_percentage > 80:
+        if info_printer.memory_percentage > 90:
 
             if memory_start_time is None:
                     memory_start_time = datetime.now()
@@ -162,7 +162,7 @@ def main():
             elapsed_time = datetime.now() - memory_start_time
             # print('MEMORY elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 600: # Seconds
+            if elapsed_time.total_seconds() > 30: # Seconds
 
                 # Twilio message
                 try:
@@ -189,7 +189,7 @@ def main():
         
         """
 
-        if info_printer.disk_space_percentage > 80:
+        if info_printer.disk_space_percentage > 90:
 
             if disk_start_time is None:
                     disk_start_time = datetime.now()
@@ -197,7 +197,7 @@ def main():
             elapsed_time = datetime.now() - disk_start_time
             # print('DISK elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 600: # Seconds
+            if elapsed_time.total_seconds() > 30: # Seconds
 
                 # Twilio message
                 try:
