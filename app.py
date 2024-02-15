@@ -134,7 +134,7 @@ def main():
                     message = client.messages.create(
                         to= number1,
                         from_=twilio_number,
-                        body="ALERT CPU USAGE, check the server.")
+                        body=cpu_message)
                 except:
                     bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
                     logging.warning('Cellphone message not sent, check twilio.com/console')
@@ -154,7 +154,7 @@ def main():
         
         """
 
-        if info_printer.memory_percentage > 90:
+        if info_printer.memory_percentage > 85:
 
             if memory_start_time is None:
                     memory_start_time = datetime.now()
@@ -169,7 +169,7 @@ def main():
                     message = client.messages.create(
                         to= number1,
                         from_=twilio_number,
-                        body="ALERT MEMORY USAGE, check the server.")
+                        body=memory_message)
                 except:
                     bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
                     logging.warning('Cellphone message not sent, check twilio.com/console')
@@ -189,7 +189,7 @@ def main():
         
         """
 
-        if info_printer.disk_space_percentage > 90:
+        if info_printer.disk_space_percentage > 85:
 
             if disk_start_time is None:
                     disk_start_time = datetime.now()
@@ -204,7 +204,7 @@ def main():
                     message = client.messages.create(
                         to= number1,
                         from_=twilio_number,
-                        body="ALERT DISK USAGE, check the server.")
+                        body=disk_message)
                 except:
                     bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
                     logging.warning('Cellphone message not sent, check twilio.com/console')
