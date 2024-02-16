@@ -7,13 +7,18 @@ from twilio.rest import Client
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
+# load hidden .env variables
+load_dotenv()
+
 """ 
 
 Logs settings 
 
 """
 
-logging.basicConfig(filename='monitor.log', level=logging.WARNING,
+# Add path of the log file
+log_path = os.getenv('LOG_PATH')
+logging.basicConfig(filename=log_path, level=logging.WARNING,
     format='%(asctime)s:%(levelname)s:%(message)s')
 
 """
@@ -67,9 +72,6 @@ class SystemInfoPrinter:
 Twilio and Telegram code implementation
 
 """
-
-# load hidden .env variables
-load_dotenv()
 
 # Your Account SID and Auth Token from console.twilio.com
 account_sid = os.environ['ACCOUNT_SID']
