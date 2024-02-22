@@ -92,6 +92,7 @@ disk_message = 'Server has high Disk usage, try to free up some disk space to cl
 # .env constants
 number1 = os.getenv('MY_NUMBER')
 number2 = os.getenv('NUMBER2')
+number3 = os.getenv('NUMBER3')
 twilio_number = os.getenv('TWILIO_NUMBER')
 
 """
@@ -134,7 +135,7 @@ def main():
                 # Twilio message
                 try:
                     message = client.messages.create(
-                        to= number1,
+                        to= number1 and number2 and number3,
                         from_=twilio_number,
                         body=cpu_message)
                 except:
@@ -169,7 +170,7 @@ def main():
                 # Twilio message
                 try:
                     message = client.messages.create(
-                        to= number1,
+                        to= number1 and number2 and number3,
                         from_=twilio_number,
                         body=memory_message)
                 except:
@@ -204,7 +205,7 @@ def main():
                 # Twilio message
                 try:
                     message = client.messages.create(
-                        to= number1,
+                        to= number1 and number2 and number3,
                         from_=twilio_number,
                         body=disk_message)
                 except:
