@@ -130,12 +130,12 @@ def main():
             elapsed_time = datetime.now() - cpu_start_time
             # print('CPU elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 30: # Seconds
+            if elapsed_time.total_seconds() > 600: # Seconds
 
                 # Twilio message
                 try:
                     message = client.messages.create(
-                        to= number1 and number2 and number3,
+                        to= number1,
                         from_=twilio_number,
                         body=cpu_message)
                 except:
@@ -165,12 +165,12 @@ def main():
             elapsed_time = datetime.now() - memory_start_time
             # print('MEMORY elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 30: # Seconds
+            if elapsed_time.total_seconds() > 600: # Seconds
 
                 # Twilio message
                 try:
                     message = client.messages.create(
-                        to= number1 and number2 and number3,
+                        to= number1,
                         from_=twilio_number,
                         body=memory_message)
                 except:
@@ -205,7 +205,7 @@ def main():
                 # Twilio message
                 try:
                     message = client.messages.create(
-                        to= number1 and number2 and number3,
+                        to= number1,
                         from_=twilio_number,
                         body=disk_message)
                 except:
