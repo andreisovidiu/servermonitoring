@@ -1,4 +1,5 @@
 import logging
+import json
 import os
 import telebot
 import psutil
@@ -90,9 +91,8 @@ memory_message = 'Server has high Memory usage. Check out the process tab to see
 disk_message = 'Server has high Disk usage, try to free up some disk space to clear this alert.'
 
 # .env constants
-number1 = os.getenv('MY_NUMBER')
-number2 = os.getenv('NUMBER2')
-number3 = os.getenv('NUMBER3')
+recipients = json.loads(os.environ['RECIPIENTS'])
+
 twilio_number = os.getenv('TWILIO_NUMBER')
 
 """
@@ -122,25 +122,25 @@ def main():
 
         """
 
-        if info_printer.cpu_percentage > 75:
+        if info_printer.cpu_percentage >= 0:
 
             if cpu_start_time is None:
                     cpu_start_time = datetime.now()
 
             elapsed_time = datetime.now() - cpu_start_time
-            # print('CPU elapsed time', elapsed_time)
-
-            if elapsed_time.total_seconds() > 600: # Seconds
+            print('CPU elapsed time', elapsed_time)
+            if elapsed_time.total_seconds() > 5: # Seconds
 
                 # Twilio message
-                try:
-                    message = client.messages.create(
-                        to= number1,
-                        from_=twilio_number,
-                        body=cpu_message)
-                except:
-                    bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
-                    logging.warning('Cellphone message not sent, check twilio.com/console')
+                for i in recipients:                                    
+                    try:
+                        message = client.messages.create(
+                            to= i,
+                            from_=twilio_number,
+                            body=cpu_message)
+                    except:
+                        bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+                        logging.warning('Cellphone message not sent, check twilio.com/console')
                     
                 # TG bot message
                 bot.send_message(chat_id=target_chat_id, text=cpu_message)
@@ -168,14 +168,15 @@ def main():
             if elapsed_time.total_seconds() > 600: # Seconds
 
                 # Twilio message
-                try:
-                    message = client.messages.create(
-                        to= number1,
-                        from_=twilio_number,
-                        body=memory_message)
-                except:
-                    bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
-                    logging.warning('Cellphone message not sent, check twilio.com/console')
+                for i in recipients:
+                    try:
+                        message = client.messages.create(
+                            to= i,
+                            from_=twilio_number,
+                            body=memory_message)
+                    except:
+                        bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+                        logging.warning('Cellphone message not sent, check twilio.com/console')
 
                 # TG bot message
                 bot.send_message(chat_id=target_chat_id, text=memory_message)
@@ -203,14 +204,15 @@ def main():
             if elapsed_time.total_seconds() > 30: # Seconds
 
                 # Twilio message
-                try:
-                    message = client.messages.create(
-                        to= number1,
-                        from_=twilio_number,
-                        body=disk_message)
-                except:
-                    bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
-                    logging.warning('Cellphone message not sent, check twilio.com/console')
+                for i in recipients:          
+                    try:
+                        message = client.messages.create(
+                            to= i,
+                            from_=twilio_number,
+                            body=disk_message)
+                    except:
+                        bot.send_message(chat_id=target_chat_id, text='Cellphone message not sent, check twilio.com/console')
+                        logging.warning('Cellphone message not sent, check twilio.com/console')
 
                 # TG bot message
                 bot.send_message(chat_id=target_chat_id, text=disk_message)
