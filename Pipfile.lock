@@ -454,12 +454,12 @@
         },
         "pytelegrambotapi": {
             "hashes": [
-                "sha256:1a68707840fd4cf45d670a63fea39d6818b153faed76fe4cb6dec78cd6772fdd",
-                "sha256:507a6702b28d9327f22952f7b8b41a3bb5ffb0a47e11f167f5a7fae14dc121ab"
+                "sha256:7ecfdac60de4a4c254059fc0f1997ceeb5da72803ffe4f35544b3ec9e9629edb",
+                "sha256:85451b4fa1a47d99318a50aef361d177d2eb580c5ea6429fadb071cfad17fb35"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.8'",
-            "version": "==4.15.5"
+            "version": "==4.16.1"
         },
         "python-dotenv": {
             "hashes": [
@@ -480,20 +480,20 @@
         },
         "twilio": {
             "hashes": [
-                "sha256:89f629fa280b51bc21cd58b35cf640f9bbf88efd3977c0c5ec6ea6821b9880cd",
-                "sha256:f5396e355de11b80c6729bd286fdc0e12c9c0b025c465f16f090034a7ef88d3d"
+                "sha256:0b09919de65a982a0cd3b81db1b621f5fb8e4507f5cd9c35e5cf91128717e717",
+                "sha256:998bbda516e7257f5ab65b65012304b917e700688a39f3c72fb969612acf0879"
             ],
             "index": "pypi",
             "markers": "python_full_version >= '3.7.0'",
-            "version": "==8.13.0"
+            "version": "==9.0.0"
         },
         "urllib3": {
             "hashes": [
-                "sha256:051d961ad0c62a94e50ecf1af379c3aba230c66c710493493560c0c223c49f20",
-                "sha256:ce3711610ddce217e6d113a2732fafad960a03fd0318c91faa79481e35c11224"
+                "sha256:450b20ec296a467077128bff42b73080516e71b56ff59a60a02bef2232c4fa9d",
+                "sha256:d0570876c61ab9e520d776c38acbbb5b05a776d3f9ff98a5c8fd5162a444cf19"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==2.2.0"
+            "version": "==2.2.1"
         },
         "yarl": {
             "hashes": [

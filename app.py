@@ -122,14 +122,15 @@ def main():
 
         """
 
-        if info_printer.cpu_percentage >= 0:
+        if info_printer.cpu_percentage > 90:
 
             if cpu_start_time is None:
                     cpu_start_time = datetime.now()
 
             elapsed_time = datetime.now() - cpu_start_time
-            print('CPU elapsed time', elapsed_time)
-            if elapsed_time.total_seconds() > 5: # Seconds
+            # Debugging purposes only
+            # print('CPU elapsed time', elapsed_time)
+            if elapsed_time.total_seconds() > 10: # Seconds
 
                 # Twilio message
                 for i in recipients:                                    
@@ -157,15 +158,16 @@ def main():
         
         """
 
-        if info_printer.memory_percentage > 85:
+        if info_printer.memory_percentage > 90:
 
             if memory_start_time is None:
                     memory_start_time = datetime.now()
 
             elapsed_time = datetime.now() - memory_start_time
+            # Debugging purposes only
             # print('MEMORY elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 600: # Seconds
+            if elapsed_time.total_seconds() > 10: # Seconds
 
                 # Twilio message
                 for i in recipients:
@@ -193,15 +195,16 @@ def main():
         
         """
 
-        if info_printer.disk_space_percentage > 85:
+        if info_printer.disk_space_percentage > 90:
 
             if disk_start_time is None:
                     disk_start_time = datetime.now()
 
             elapsed_time = datetime.now() - disk_start_time
+            # Debugging purposes only
             # print('DISK elapsed time', elapsed_time)
 
-            if elapsed_time.total_seconds() > 30: # Seconds
+            if elapsed_time.total_seconds() > 10: # Seconds
 
                 # Twilio message
                 for i in recipients:          
