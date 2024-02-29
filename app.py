@@ -226,7 +226,7 @@ def main():
         else:
             disk_start_time = None
         
-        # Pause for amount of seconds
+        # Pause for specified amount of seconds
         time.sleep(60)
 
         """
