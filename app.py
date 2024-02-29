@@ -122,7 +122,7 @@ def main():
 
         """
 
-        if info_printer.cpu_percentage > 90:
+        if info_printer.cpu_percentage >= 60:
 
             if cpu_start_time is None:
                     cpu_start_time = datetime.now()
@@ -225,16 +225,17 @@ def main():
 
         else:
             disk_start_time = None
+        
+        time.sleep(60)
 
         """
         Errors are managed by the Twilio module 
         and by the try/except condition,
         check documentation or support for details
         https://www.twilio.com/docs/errors/21608
-        
+
         """
         # Remove when implemented, uncomment only for debug purposes   
-        # time.sleep(3)
         # info_printer.print_system_info()
 
 if __name__ == "__main__":
