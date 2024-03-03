@@ -228,18 +228,6 @@ def main():
         
         # Pause for specified amount of seconds
         time.sleep(10)
-        print(datetime.now().time())
-        
-        """
-        
-        EOD message
-
-        """
-        current_time = datetime.now().time()
-        if current_time == datetime.strptime('17:48:00', '%H:%M:%S').time():
-            info_printer.update_system_info()
-            eod_message = info_printer.print_system_info
-            bot.send_message(chat_id=target_chat_id, text="Hello")
 
         """
         Errors are managed by the Twilio module 
