@@ -103,6 +103,9 @@ Main
 
 def main():
 
+    # Startup message
+    bot.send_message(chat_id=target_chat_id, text='Script restarted, now monitoring..')
+
     info_printer = SystemInfoPrinter() # Object from class SystemInfoPrinter
     cpu_start_time = None
     memory_start_time = None
@@ -227,7 +230,7 @@ def main():
             disk_start_time = None
         
         # Pause for specified amount of seconds
-        time.sleep(10)
+        time.sleep(60)
 
         """
         Errors are managed by the Twilio module 
