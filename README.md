@@ -4,7 +4,7 @@ It alerts the user through a Telegram message and a Twilio cellphone message onc
 
 ## Instructions
 
-### Create a .env file with your data
+### 1. Create a .env file with your data
 
 ```
 # Telegram
@@ -21,13 +21,13 @@ RECIPIENTS = ["RECIPIENTS_NUMBER"]
 LOG_PATH = "LOG_PATH/monitor.log"
 ```
 
-### Install dependencies
+### 2. Install dependencies
 
 ```
 pipenv install
 ```
 
-### Install supervisord (optional)
+### 3. Install supervisord (optional)
 Install Supervisord, a client/server system that allows its users to monitor and control a number of processes on UNIX-like operating systems.
 
 Supervisord useful cmd commands:
