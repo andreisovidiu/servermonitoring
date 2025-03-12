@@ -1,5 +1,5 @@
 # Summary
-Servermonitoring is a Python script that monitors CPU, RAM and DISK SPACE values of Linux/Unix operating systems.
+Linux monitoring is a Python script that monitors CPU, RAM and DISK SPACE values of Linux/Unix operating systems.
 It alerts the user through a Telegram message and a Twilio cellphone message once the values are breached.
 
 ## Instructions
